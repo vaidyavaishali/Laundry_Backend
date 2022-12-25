@@ -14,14 +14,14 @@ const OrderSchema = new mongoose.Schema({
         required: true
     },
     total_items: {
-        type: String,
+        type: Number,
         required: true
     },
     store: {
         type: String
     },
     price: {
-        type: String
+        type: Number
     },
     status: String,
     city: String,
