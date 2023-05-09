@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt")
 router.post("/isLoggedIn", JWT_AUTH, async (req, res) => {
     try {
         const user = await User.findOne({ _id: res.user.id })
-        // //console.log(user);
+        // console.log(user);
         return res.status(200).json(user)
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -20,17 +20,12 @@ router.post("/signup", async (req, res) => {
     try {
 
         const checkExistingByEmail = await User.find({ email: req.body.email })
-        const checkExistingByPhone = await User.find({ phone: req.body.phone })
+        // const checkExistingByPhone = await User.find({ phone: req.body.phone })
 
         if (checkExistingByEmail.length) {
             return res.status(400).json(`User With this ${req.body.email} email already exists`)
         }
-        if (checkExistingByPhone.length) {
-            return res.status(400).json(`User With this ${req.body.phone} phone number already exists`)
-        }
-
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
         req.body.password = hashedPassword
 
         const newUser = await User(req.body)
@@ -51,7 +46,7 @@ router.post("/login", async (req, res) => {
 
         //console.log(req.body);
         const getUserbyMail = await User.find({ email: email })
-        const getUserbyPhone = await User.find({ phone: email })
+        // const getUserbyPhone = await User.find({ phone: email })
 
         const user = getUserbyMail.length ? getUserbyMail[0] : getUserbyPhone[0]
 
